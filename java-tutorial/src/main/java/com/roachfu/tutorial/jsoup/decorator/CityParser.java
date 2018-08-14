@@ -2,6 +2,7 @@ package com.roachfu.tutorial.jsoup.decorator;
 
 import com.roachfu.tutorial.jsoup.Node;
 import com.roachfu.tutorial.util.HttpClientUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -11,9 +12,12 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
+ * 省市县解析器
+ *
  * @author roach
  * @date 2018/8/12 16:45
  */
+@Slf4j
 public class CityParser implements ICityParser {
 
     private static final String COMMON_URL = "http://www.stats.gov.cn/tjsj/tjbz/tjyqhdmhcxhfdm/2017/";
@@ -52,7 +56,7 @@ public class CityParser implements ICityParser {
                 String provinceName = link.text();
                 String href = link.attr("href");
                 String provinceCode = href.substring(0, 2);
-                System.out.println("provinceName: " + provinceName + ", provinceCode: " + provinceCode);
+                log.info("provinceName: " + provinceName + ", provinceCode: " + provinceCode);
 
                 Node provinceNode = Node.builder()
                         .code(provinceCode)
@@ -78,11 +82,6 @@ public class CityParser implements ICityParser {
      * @param url 请求url
      */
     private List<Node> parseCity(String url) {
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
         String htmlStr = HttpClientUtils.httpGetRequest(url, "GBK");
         Document document = Jsoup.parse(htmlStr);
         Elements trs = document.getElementsByClass("citytr");
@@ -93,12 +92,12 @@ public class CityParser implements ICityParser {
             String href = links.get(0).attr("href");
             String cityCode = links.get(0).text().substring(0, 4);
             String cityName = links.get(1).text();
-            System.out.println("    cityName: " + cityName + ", cityCode: " + cityCode);
+            log.info("    cityName: " + cityName + ", cityCode: " + cityCode);
 
             Node cityNode = Node.builder()
                     .name(cityName)
                     .code(cityCode)
-//                    .nodes(parseCounty(COMMON_URL + href))
+                    .nodes(parseCounty(COMMON_URL + href))
                     .build();
             cities.add(cityNode);
         }
@@ -134,7 +133,7 @@ public class CityParser implements ICityParser {
             }
             String countyCode = links.get(0).text().substring(0, 6);
             String countyName = links.get(1).text();
-            System.out.println("        countyName: " + countyName + ", countyCode: " + countyCode);
+            log.info("        countyName: " + countyName + ", countyCode: " + countyCode);
 
             Node node = Node.builder()
                     .code(countyCode)

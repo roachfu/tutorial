@@ -13,11 +13,9 @@ public class CityParserDemo {
 
         // 1. 先查经纬度
         ICityParser locationCityParser = new LocationCityParserDecorator(cityParser);
-//        locationCityParser.parseProvinces(url);
 
         // 展示sql
         ICityParser sqlCityParser = new SqlCityParserDecorator(locationCityParser);
-//        sqlCityParser.parseProvinces(url);
 
         // 打印json
         ICityParser jsonCityParser = new JsonCityParserDecorator(sqlCityParser);

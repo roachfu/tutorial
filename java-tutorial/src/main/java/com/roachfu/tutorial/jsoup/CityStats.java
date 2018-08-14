@@ -1,10 +1,8 @@
 package com.roachfu.tutorial.jsoup;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.roachfu.tutorial.util.HttpClientUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -19,6 +17,7 @@ import java.util.List;
  * @author roach
  * @date 2018-08-11
  */
+@Slf4j
 public class CityStats {
 
     private static final String COMMON_URL = "http://www.stats.gov.cn/tjsj/tjbz/tjyqhdmhcxhfdm/2017/";
@@ -55,7 +54,7 @@ public class CityStats {
                 String provinceName = link.text();
                 String href = link.attr("href");
                 String provinceCode = href.substring(0, 2);
-                System.out.println("provinceName: " + provinceName + ", provinceCode: " + provinceCode);
+                log.info("provinceName: " + provinceName + ", provinceCode: " + provinceCode);
 
                 Node provinceNode = Node.builder()
                         .code(provinceCode)
@@ -66,7 +65,7 @@ public class CityStats {
                 provinces.add(provinceNode);
             }
         }
-        System.out.println(new Gson().toJson(provinces));
+        log.info(new Gson().toJson(provinces));
     }
 
     /**
@@ -91,7 +90,7 @@ public class CityStats {
             String href = links.get(0).attr("href");
             String cityCode = links.get(0).text().substring(0, 4);
             String cityName = links.get(1).text();
-            System.out.println("    cityName: " + cityName + ", cityCode: " + cityCode);
+            log.info("    cityName: " + cityName + ", cityCode: " + cityCode);
 
             Node cityNode = Node.builder()
                     .name(cityName)
@@ -133,7 +132,7 @@ public class CityStats {
             }
             String countyCode = links.get(0).text().substring(0, 6);
             String countyName = links.get(1).text();
-            System.out.println("        countyName: " + countyName + ", countyCode: " + countyCode);
+            log.info("        countyName: " + countyName + ", countyCode: " + countyCode);
 
             counties.add(Node.builder()
                     .code(countyCode)
