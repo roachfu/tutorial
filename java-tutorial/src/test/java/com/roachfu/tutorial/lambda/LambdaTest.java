@@ -1,11 +1,14 @@
 package com.roachfu.tutorial.lambda;
 
-import com.roachfu.tutorial.lambda.entity.User;
+import com.roachfu.tutorial.entity.User;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 import static org.junit.Assert.assertEquals;
@@ -92,4 +95,32 @@ public class LambdaTest {
         String idStr = users.stream().map(user -> user.getId() + "").collect(Collectors.joining(", "));
         assertEquals("1, 2, 3", idStr);
     }
+
+    @Test
+    public void testSort(){
+        Random random = new Random();
+        random.ints().limit(3).sorted().forEach(System.out::println);
+    }
+
+    /**
+     * list 快速转 map
+     */
+    @Test
+    public void testListToMap(){
+        /* 常规方式 */
+        Map<Long, User> map = new HashMap<>();
+        for (User u : users){
+            map.put(u.getId(), u);
+        }
+        for (Map.Entry<Long, User> entry : map.entrySet()){
+            System.out.println(entry.getKey());
+        }
+        
+        /* lambda方式 */
+        Map<Long, User> userMap = users.stream().collect(Collectors.toMap(User::getId, user -> user));
+        for (Map.Entry<Long, User> entry : userMap.entrySet()){
+            System.out.println(entry.getKey());
+        }
+    }
+
 }
