@@ -1,0 +1,52 @@
+package com.roachfu.tutorial.date;
+
+import org.junit.Test;
+
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.util.Calendar;
+
+/**
+ * @author roach
+ * @date 2018/11/5
+ */
+public class LocalDateTimeTest {
+
+    /**
+     * 获取指定时间的时间戳
+     */
+    @Test
+    public void testGetTimestamp(){
+        /* LocalDateTime方式 */
+        LocalDateTime localDateTime = LocalDateTime.now();
+        long startTime = localDateTime.minusMonths(2L)
+                .withHour(0)
+                .withMinute(0)
+                .withSecond(0)
+                .withNano(0)
+                .toInstant(ZoneOffset.of("+8"))
+                .toEpochMilli();
+        long endTime = localDateTime.withHour(23)
+                .withMinute(59)
+                .withSecond(59)
+                .withNano(0)
+                .toInstant(ZoneOffset.of("+8"))
+                .toEpochMilli();
+
+        System.out.println("startTime=" + startTime + ", endTime="+endTime);
+
+        /* Calendar方式 */
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.MONTH, -2);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.HOUR_OF_DAY, 23);
+        cal.set(Calendar.MINUTE, 59);
+        cal.set(Calendar.SECOND, 59);
+        cal.set(Calendar.MILLISECOND, 0);
+        System.out.println("startTime="+ calendar.getTimeInMillis() + ", endTime="+ cal.getTimeInMillis());
+    }
+}
