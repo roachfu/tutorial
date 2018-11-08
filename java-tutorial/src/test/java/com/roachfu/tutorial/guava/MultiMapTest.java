@@ -5,12 +5,14 @@ import com.google.common.collect.Multimap;
 import com.roachfu.tutorial.entity.User;
 import org.junit.Before;
 import org.junit.Test;
+import org.omg.PortableInterceptor.INACTIVE;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * @author roach
@@ -35,7 +37,13 @@ public class MultiMapTest {
 
         user = new User();
         user.setId(3L);
-        user.setName("张三");
+        user.setName("王五");
+        user.setAge(25);
+        list.add(user);
+
+        user = new User();
+        user.setId(3L);
+        user.setName("赵六");
         user.setAge(25);
         list.add(user);
     }
@@ -47,6 +55,14 @@ public class MultiMapTest {
             multiMap.put(u.getName(), u);
         }
         for (Map.Entry<String, Collection<User>> entry : multiMap.asMap().entrySet()){
+            System.out.println(entry.getKey());
+        }
+    }
+
+    @Test
+    public void testGroupBy() {
+        Map<Integer, List<User>> userMap = list.stream().collect(Collectors.groupingBy(User::getAge));
+        for (Map.Entry<Integer, List<User>> entry : userMap.entrySet()){
             System.out.println(entry.getKey());
         }
     }
