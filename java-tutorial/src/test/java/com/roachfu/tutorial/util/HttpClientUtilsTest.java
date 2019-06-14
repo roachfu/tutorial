@@ -17,4 +17,13 @@ public class HttpClientUtilsTest {
         System.out.println(html);
     }
 
+    @Test
+    public void testBaidu(){
+        String url = "http://api.map.baidu.com/geocoder/v2/?address=北京市海淀区上地十街10号&output=json&ak=you ak&callback=showLocation";
+
+        String location = HttpClientUtils.httpGetRequest(url);
+        System.out.println(location);
+
+    }
+
 }

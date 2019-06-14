@@ -26,12 +26,16 @@ public class LambdaTest {
         users = new ArrayList<>();
 
         User user1 = User.builder()
-                .id(1L)
                 .name("蒙奇D路飞")
                 .age(19)
-            .build();
+                .build();
+        user1.setId(1L);
 
-        User user2 = new User(2L, "诺诺罗亚佐罗", 21);
+        User user2 = User.builder()
+                .name("诺诺罗亚佐罗")
+                .age(21)
+                .build();
+        user2.setId(2L);
 
         User user3 = new User();
         user3.setId(3L);
@@ -97,7 +101,7 @@ public class LambdaTest {
     }
 
     @Test
-    public void testSort(){
+    public void testSort() {
         Random random = new Random();
         random.ints().limit(3).sorted().forEach(System.out::println);
     }
@@ -106,21 +110,26 @@ public class LambdaTest {
      * list 快速转 map
      */
     @Test
-    public void testListToMap(){
+    public void testListToMap() {
         /* 常规方式 */
         Map<Long, User> map = new HashMap<>();
-        for (User u : users){
+        for (User u : users) {
             map.put(u.getId(), u);
         }
-        for (Map.Entry<Long, User> entry : map.entrySet()){
+        for (Map.Entry<Long, User> entry : map.entrySet()) {
             System.out.println(entry.getKey());
         }
-        
+
         /* lambda方式 */
         Map<Long, User> userMap = users.stream().collect(Collectors.toMap(User::getId, user -> user));
-        for (Map.Entry<Long, User> entry : userMap.entrySet()){
+        for (Map.Entry<Long, User> entry : userMap.entrySet()) {
             System.out.println(entry.getKey());
         }
     }
 
+    @Test
+    public void testGroupBy() {
+        Map<Integer, List<User>> userMap = users.stream().collect(Collectors.groupingBy(User::getAge));
+        System.out.println(userMap.size());
+    }
 }

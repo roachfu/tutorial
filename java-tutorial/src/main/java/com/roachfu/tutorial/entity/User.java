@@ -14,7 +14,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-public class User extends BaseEntity implements Serializable {
+public class User extends BaseEntity implements Serializable, Comparable<User> {
 
     private static final long serialVersionUID = -8339562928569639116L;
 
@@ -25,4 +25,13 @@ public class User extends BaseEntity implements Serializable {
     private Integer userGender;
 
     private String userHeight;
+
+    @Override
+    public int compareTo(User user) {
+        /* 排序需要返回不等于0的整数，否则无法排序 */
+        if (this.age > user.getAge()){
+            return 1;
+        }
+        return 0;
+    }
 }
