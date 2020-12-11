@@ -6,7 +6,7 @@ import com.hummer.im._internals.utility.HMRCompletion;
 import com.hummer.im._internals.utility.ReportFunction;
 import com.hummer.im.chatroom.ChatRoomService;
 import com.hummer.im.chatroom.model.attribute.RoomBasicAttributesOptions;
-import com.hummer.im.chatroom.model.id.ChatRoom;
+import com.hummer.im.model.id.ChatRoom;
 import com.hummer.im.model.RequestId;
 import lombok.NonNull;
 

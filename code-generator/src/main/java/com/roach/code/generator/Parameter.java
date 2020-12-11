@@ -12,4 +12,13 @@ public class Parameter {
     private String type;
 
     private String name;
+
+    private String prefix;
+
+    public String getPrefix() {
+        if (null == prefix) {
+            return "&";
+        }
+        return prefix;
+    }
 }
